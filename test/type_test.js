@@ -1,9 +1,10 @@
+'use strict';
 var expect = require("chai").expect;
 var Type = require("../src/type.js");
 
 describe("TestType", function(){
     it("construct proper Type", function(){
-       var type = new Type("string");
+        var type = new Type("string");
         expect(type.getName()).to.equal("string");
     });
 

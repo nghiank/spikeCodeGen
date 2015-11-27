@@ -1,3 +1,5 @@
+'use strict';
+
 function FunctionSignature(name, returnType, params) {
     this.name = name;
     this.returnType = returnType;
@@ -16,4 +18,4 @@ FunctionSignature.prototype.getParams = function() {
     return this.params;
 }
 
-
+module.exports = FunctionSignature;
