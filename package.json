@@ -1,0 +1,36 @@
+{
+  "name": "spikeCodeGen",
+  "version": "1.0.0",
+  "description": "A library to generate some code for different languages",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nghiank/spikeCodeGen.git"
+  },
+  "keywords": [
+    "code generation",
+    "language"
+  ],
+  "author": "Nghia Nguyen <nghiaround@gmail.com>",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/nghiank/spikeCodeGen/blob/master/LICENSE"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/nghiank/spikeCodeGen/issues"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-mocha": "^2.2.0"
+  },
+  "dependencies": {
+    "chai": "^3.4.1",
+    "gulp": "^3.9.0",
+    "mocha": "^2.3.4"
+  }
+}
