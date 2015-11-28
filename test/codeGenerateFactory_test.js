@@ -1,7 +1,7 @@
 'use strict';
 var expect = require('chai').expect;
 var CodeGenerateFactory = require('../src/codeGenerateFactory');
-var CplusplusGen = require('../src/codeGenerator/CplusplusGen');
+var CplusplusGen = require('../src/codeGenerator/Cplusplus/CplusplusGen');
 
 describe("CodeGenerateFactoryTest", function(){
 	

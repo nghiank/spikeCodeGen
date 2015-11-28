@@ -1,6 +1,6 @@
 'use strict';
 
-var CplusplusGen = require('./codeGenerator/CplusplusGen');
+var CplusplusGen = require('./codeGenerator/Cplusplus/CplusplusGen');
 
 
 

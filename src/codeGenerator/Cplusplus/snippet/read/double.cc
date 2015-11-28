@@ -1,0 +1,2 @@
+double variableName;
+fin >> variableName;

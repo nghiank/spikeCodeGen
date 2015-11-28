@@ -15,15 +15,22 @@ var voidType = new Type('void');
 module.exports.voidType = voidType;
 
 //array
-var vectorInt = new Type('vector', int);
+var vectorInt = new Type('vector', [int]);
 module.exports.vectorInt = vectorInt;
 
-var vectorDouble = new Type('vector', double);
+var vectorDouble = new Type('vector', [double]);
 module.exports.vectorDouble = vectorDouble;
 
-var vectorString = new Type('vector', string);
+var vectorString = new Type('vector', [string]);
 module.exports.vectorString = vectorString;
 
+module.exports.isString = function(type) {
+	return type.getName() === string.getName();
+}
+
+module.exports.isContainer = function(type) {
+	return type.getName() === vectorInt.getName();
+}
 
 
 
