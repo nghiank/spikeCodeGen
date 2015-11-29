@@ -1,2 +1,0 @@
-double variableName;
-fin >> variableName;

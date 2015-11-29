@@ -1,5 +1,7 @@
 'use strict';
 var allTypes = require('../../allTypes');
+var fs = require('fs');
+var path = require('path');
 
 function CplusplusGen(functionSignature) {
 	this.func = functionSignature;
@@ -7,23 +9,10 @@ function CplusplusGen(functionSignature) {
 
 //generate the include header & namespace
 CplusplusGen.prototype.generateHeader = function() {
-	
-	//C++11
-	var libs = ["algorithm", "string",
-			   "map", "vector", "list", "array", "set", 
-			   "multiset", "multimap",
-			   "unordered_set", "unordered_multiset", 
-			   "unordered_map", "unordered_multimap",
-			   "stack", "deque", "queue", "priority_queue",			   
-			   "utility", "functional", "numeric",
-			   "sstream", 		   
-			   "bitset", "cmath", "cstdio", "cstdlib", "ctime"]
-	var res = "";
-	for(var i = 0; i < libs.length; ++i) {
-		res = res + "#include <" + libs[i] + ">\n"
-	}
-	res += "using namesapce std;\n";		
-	return res;	
+	var fileName = "header.cc";
+	var file = path.join(__dirname, 'snippet', fileName);
+	var code = fs.readFileSync(file, 'utf8');
+	return code;
 }
 
 
@@ -57,18 +46,91 @@ CplusplusGen.prototype.generateBody = function() {
 	for(var i = 0; i < params.length; ++i) {
 		arr.push(this.genReadFromFile(params[i], String.fromCharCode(i+97)));
 	}
-	var res = arr.join('\n');	
+	var res = arr.join('\n');
 	return res;
+}
+
+CplusplusGen.prototype.generateCallUserFunction = function() {
+	var params = this.func.getParams();
+	var sz = params.length;
+	var variableName = String.fromCharCode( sz + 97 );
+	var res = this.getName(this.func.getReturnType());
+	res += " " + variableName + " = ";
+	res += this.func.getName();
+	res += "("
+	var arr = [];
+	for(var i = 0; i < sz; ++i) arr.push(String.fromCharCode(i + 97));
+	res += arr.join(',');
+	res += ")"	
+	return res;
+}
+
+CplusplusGen.prototype.generateWriteUserOutput = function() {
+	var params = this.func.getParams();
+	var sz = params.length;
+	var variableName = String.fromCharCode( sz + 97 );
 	
-	
+	var fileName = this.getFileNameTemplate(this.func.getReturnType());
+	var file = path.join(__dirname, 'snippet/write/', fileName);
+	var code = fs.readFileSync(file, 'utf8');
+	var res = code.replace(new RegExp('variableName','g'), variableName);	
+	return res;
 }
 
 //generate write to file
-CplusplusGen.prototype.generateProgram = function() {	
+
+CplusplusGen.prototype.generateProgram = function(userCode) {	
+	var fileName = "mainBody.cc";
+	var file = path.join(__dirname, 'snippet', fileName);
+	var code = fs.readFileSync(file, 'utf8');
+	
+	var header = this.generateHeader();
+	var readAndDeclare = this.generateBody();
+	var callUserFunction = this.generateCallUserFunction();
+	var writeUserOutput = this.generateWriteUserOutput();
+	code = code.replace('includeHeader', header);	
+	code = code.replace('userFunctionSolution', userCode);
+	code = code.replace('readAndDeclare', readAndDeclare);
+	code = code.replace('callUserSolution', callUserFunction);
+	code = code.replace('writeUserOutput', writeUserOutput);	
+	
+	//console.log(code);
+	return code;
+	
 }
 
 
 //Todo : make it private
+//Todo: scale it by load the file into memory
+
+//support single subtype currently
+CplusplusGen.prototype.getFileNameTemplate = function(type) {
+	var cnt = 0; // detect if it is non-array, 1D array or 2D array
+	while(type) {
+		var subtypes = type.getSubtypes();
+		if (type.getName() == allTypes.vectorInt.getName()) {
+			++cnt;
+		}
+		if (subtypes && subtypes.length > 0) {
+			type = subtypes[0];
+		} else break;	
+	}	
+	
+	var fileNames = ["single.cc", "array1D.cc", "array2D.cc"];
+	return fileNames[cnt];
+}
+
+CplusplusGen.prototype.genReadFromFile = function(type, variableName) {
+
+	var fileName = this.getFileNameTemplate(type);
+	var file = path.join(__dirname, 'snippet/read/', fileName);
+	var code = fs.readFileSync(file, 'utf8');
+	var res = code.replace(new RegExp('variableName','g'), variableName);
+	var variableType = this.getName(type);	
+	res = res.replace(new RegExp('variableType', 'g'), variableType);		
+	return res;
+} 
+
 CplusplusGen.prototype.getName = function(type) {
 	if (!allTypes.isContainer(type)) {
 		return type.getName();

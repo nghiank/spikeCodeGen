@@ -1,7 +1,7 @@
 'use strict';
 var Type = require('./type');
 
-//int
+//single 
 var int = new Type('int');
 module.exports.int = int;
 
@@ -14,9 +14,10 @@ module.exports.string = string;
 var voidType = new Type('void');
 module.exports.voidType = voidType;
 
-//array
+//array 1D
 var vectorInt = new Type('vector', [int]);
 module.exports.vectorInt = vectorInt;
+
 
 var vectorDouble = new Type('vector', [double]);
 module.exports.vectorDouble = vectorDouble;
@@ -24,6 +25,14 @@ module.exports.vectorDouble = vectorDouble;
 var vectorString = new Type('vector', [string]);
 module.exports.vectorString = vectorString;
 
+//array 2D
+var vectorVectorInt = new Type('vector', [vectorInt]);
+module.exports.vectorVectorInt = vectorVectorInt;
+
+var vectorVectorDouble = new Type('vector', [vectorDouble]);
+module.exports.vectorVectorDouble = vectorVectorDouble;
+
+//helper function
 module.exports.isString = function(type) {
 	return type.getName() === string.getName();
 }
