@@ -49,7 +49,6 @@ describe("CplusplusGenTest", function() {
 		var gen = new CplusplusGen(signature);
 		var res = gen.generateFunction();
 				
-		console.log(res);
 		expect(res.indexOf('void sortBall(vector<vector<int>>& a) {')).to.equal(0);
 		expect(res[res.length-1]).to.equal('}');		
 	});
@@ -72,8 +71,6 @@ describe("CplusplusGenTest", function() {
 		var userCode = gen.generateFunction();
 		userCode = userCode.replace('}', '\treturn 0;\n}');		
 		var res = gen.generateProgram(userCode);
-		
-		console.log(res);
 		
 		expect(res).not.to.be.null;
 		expect(res).not.to.be.undefined;
