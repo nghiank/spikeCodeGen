@@ -1,14 +1,14 @@
 {
-  "name": "spikeCodeGen",
+  "name": "spikecode",
   "version": "1.0.0",
   "description": "A library to generate some code for different languages",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --reporter spec"
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:nghiank/spikeCodeGen.git"
+    "url": "git+ssh://git@github.com/nghiank/spikeCodeGen.git"
   },
   "keywords": [
     "code generation",
@@ -33,5 +33,10 @@
     "chai": "^3.4.1",
     "gulp": "^3.9.0",
     "mocha": "^2.3.4"
-  }
+  },
+  "homepage": "https://github.com/nghiank/spikeCodeGen#readme",
+  "directories": {
+    "test": "test"
+  },
+  "license": "ISC"
 }
