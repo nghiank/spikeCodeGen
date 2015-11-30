@@ -6,6 +6,9 @@ var path = require('path');
 function CplusplusGen(functionSignature) {
 	this.func = functionSignature;
 }
+CplusplusGen.prototype.getVariableName = function(i) {
+	return String.fromCharCode(i+97) + "_var";	
+}
 
 //generate the include header & namespace
 CplusplusGen.prototype.generateHeader = function() {
@@ -24,7 +27,7 @@ CplusplusGen.prototype.generateFunction = function() {
 	var arr = [];
 	var params = this.func.getParams();
 	for(var i = 0; i < params.length; ++i) {
-		arr.push(this.getNameDeclaration(params[i]) + String.fromCharCode(i + 97));
+		arr.push(this.getNameDeclaration(params[i]) + this.getVariableName(i));
 	}
 		
 	res += "(";
@@ -44,7 +47,7 @@ CplusplusGen.prototype.generateBody = function() {
 	var params = this.func.getParams();
 	var arr = [];	
 	for(var i = 0; i < params.length; ++i) {
-		arr.push(this.genReadFromFile(params[i], String.fromCharCode(i+97)));
+		arr.push(this.genReadFromFile(params[i], this.getVariableName(i)));
 	}
 	var res = arr.join('\n');
 	return res;
@@ -53,25 +56,27 @@ CplusplusGen.prototype.generateBody = function() {
 CplusplusGen.prototype.generateCallUserFunction = function() {
 	var params = this.func.getParams();
 	var sz = params.length;
-	var variableName = String.fromCharCode( sz + 97 );
+	var variableName = this.getVariableName(sz);
 	var res = this.getName(this.func.getReturnType());
 	res += " " + variableName + " = ";
 	res += this.func.getName();
 	res += "("
 	var arr = [];
-	for(var i = 0; i < sz; ++i) arr.push(String.fromCharCode(i + 97));
+	for(var i = 0; i < sz; ++i) {
+		arr.push(this.getVariableName(i));
+	}
 	res += arr.join(',');
-	res += ")"	
+	res += ");"	
 	return res;
 }
 
 CplusplusGen.prototype.generateWriteUserOutput = function() {
 	var params = this.func.getParams();
 	var sz = params.length;
-	var variableName = String.fromCharCode( sz + 97 );
+	var variableName = this.getVariableName(sz);
 	
 	var fileName = this.getFileNameTemplate(this.func.getReturnType());
-	var file = path.join(__dirname, 'snippet/write/', fileName);
+	var file = path.join(__dirname, 'snippet/write', fileName);
 	var code = fs.readFileSync(file, 'utf8');
 	var res = code.replace(new RegExp('variableName','g'), variableName);	
 	return res;
@@ -139,12 +144,12 @@ CplusplusGen.prototype.getName = function(type) {
 	var arr = [];
 	var sub = type.getSubtypes();
 	for(var i = 0 ; i < sub.length; ++i) {
-		arr.push(this.getName(sub[i]));
+		arr.push(this.getName(sub[i]));		
 	}
 	
 	var res = type.getName() + '<';
 	res += arr.join(',');
-	res += '>';
+	res += ' >';
 	return res;
 		
 }

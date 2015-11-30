@@ -14,8 +14,7 @@ describe("CplusplusGenTest", function() {
 		var signature = new FunctionSignature('sortBall', returnType, params);
 		var gen = new CplusplusGen(signature);
 		var res = gen.generateHeader();
-		
-		//Todo: what is best way to test?
+				
 		expect(res).not.to.be.null;
 		expect(res).not.to.be.undefined;		
 	});
@@ -27,29 +26,29 @@ describe("CplusplusGenTest", function() {
 		var gen = new CplusplusGen(signature);
 		var res = gen.generateFunction();
 		
-		expect(res.indexOf('int sortBall(int a,string& b) {')).to.equal(0);
+		expect(res.indexOf('int sortBall(int a_var,string& b_var) {')).to.equal(0);
 		expect(res[res.length-1]).to.equal('}');		
 	});
 	
 	it("generate the function signature properly with vector params", function() {
 		
 		var args = [allTypes.vectorInt];
-		var signature = new FunctionSignature('sortBall', allTypes.voidType, args);
+		var signature = new FunctionSignature('sortBall', allTypes.double, args);
 		var gen = new CplusplusGen(signature);
 		var res = gen.generateFunction();
-				
-		expect(res.indexOf('void sortBall(vector<int>& a) {')).to.equal(0);
+						
+		expect(res.indexOf('double sortBall(vector<int >& a_var) {')).to.equal(0);
 		expect(res[res.length-1]).to.equal('}');		
 	});
 	
 	it("generate the function signature properly with 2D vector params", function() {
 		
 		var args = [allTypes.vectorVectorInt];
-		var signature = new FunctionSignature('sortBall', allTypes.voidType, args);
+		var signature = new FunctionSignature('sortBall', allTypes.string, args);
 		var gen = new CplusplusGen(signature);
 		var res = gen.generateFunction();
 				
-		expect(res.indexOf('void sortBall(vector<vector<int>>& a) {')).to.equal(0);
+		expect(res.indexOf('string sortBall(vector<vector<int > >& a_var) {')).to.equal(0);
 		expect(res[res.length-1]).to.equal('}');		
 	});
 	
@@ -74,7 +73,7 @@ describe("CplusplusGenTest", function() {
 		
 		expect(res).not.to.be.null;
 		expect(res).not.to.be.undefined;
-	})
+	});
 	
 });
 

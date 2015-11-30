@@ -11,9 +11,6 @@ module.exports.double = double;
 var string = new Type('string');
 module.exports.string = string;
 
-var voidType = new Type('void');
-module.exports.voidType = voidType;
-
 //array 1D
 var vectorInt = new Type('vector', [int]);
 module.exports.vectorInt = vectorInt;

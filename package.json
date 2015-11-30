@@ -26,7 +26,8 @@
   },
   "devDependencies": {
     "gulp": "^3.9.0",
-    "gulp-mocha": "^2.2.0"
+    "gulp-mocha": "^2.2.0",
+    "sync-exec": "^0.6.2"
   },
   "dependencies": {
     "chai": "^3.4.1",

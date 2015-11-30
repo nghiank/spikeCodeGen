@@ -29,11 +29,11 @@ int main(int argc, char* argv[]) {
     ofstream fout(outputFileName);
     try{
       
-        readAndDeclare;
+        readAndDeclare
         
-        callUserSolution;
+        callUserSolution
         
-        writeUserOutput;            
+        writeUserOutput            
         
     } catch(...) {
       fin.close();
