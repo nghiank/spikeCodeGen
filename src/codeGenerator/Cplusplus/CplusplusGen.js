@@ -3,9 +3,13 @@ var allTypes = require('../../allTypes');
 var fs = require('fs');
 var path = require('path');
 
-function CplusplusGen(functionSignature) {
-	this.func = functionSignature;
+function CplusplusGen() {
 }
+
+CplusplusGen.prototype.setFunctionSignature = function(funcSignature) {
+	this.func = funcSignature;
+}
+
 CplusplusGen.prototype.getVariableName = function(i) {
 	return String.fromCharCode(i+97) + "_var";	
 }

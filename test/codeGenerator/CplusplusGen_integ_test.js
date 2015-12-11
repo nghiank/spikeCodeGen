@@ -19,7 +19,8 @@ describe("CplusplusGenTest", function() {
 	    }
 		
 		var signature = new FunctionSignature('sortBall', allTypes.int, args);
-		var gen = new CplusplusGen(signature);
+		var gen = new CplusplusGen();
+        gen.setFunctionSignature(signature);
 		
 		var userCode = gen.generateFunction();
 		userCode = userCode.replace('}', '\treturn 0;\n}');		
